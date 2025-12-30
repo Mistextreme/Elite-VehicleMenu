@@ -1,333 +1,130 @@
--- [AI CLEANUP] Decompiled Lua - Fix these:
--- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
--- 2. Rename AG0_1, AG1_2 variables to meaningful names
--- 3. Replace goto/label with while/repeat-until where possible
--- 4. Remove decompiler comments, add meaningful ones
--- 5. Fix indentation and formatting
+-- Check if player has permission to use vehicle menu
+local function hasPermission(source)
+  local playerGroup = framework.GetGroup(source)
+  
+  if not playerGroup then
+    return false
+  end
+  
+  for _, allowedGroup in ipairs(Config.Group) do
+    if allowedGroup == playerGroup then
+      return true
+    end
+  end
+  
+  return false
+end
 
-local AG0_1, AG1_1, AG2_1, AG3_1, AG4_1
-function AG0_1(AG0_2)
-  -- [AI CLEANUP] Decompiled Lua - Fix these:
-  -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-  -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-  -- 3. Replace goto/label with while/repeat-until where possible
-  -- 4. Remove decompiler comments, add meaningful ones
-  -- 5. Fix indentation and formatting
+-- Event: Check permissions and open menu
+RegisterNetEvent("Elite-VehicleMenu:checkPerms", function()
+  local source = source
   
-  local AG1_2, AG2_2, AG3_2, AG4_2, AG5_2, AG6_2, AG7_2, AG8_2
-  AG1_2 = framework
-  AG1_2 = AG1_2.GetGroup
-  AG2_2 = AG0_2
-  AG1_2 = AG1_2(AG2_2)
-  if not AG1_2 then
-    AG2_2 = false
-    return AG2_2
+  if hasPermission(source) then
+    TriggerClientEvent("Elite-VehicleMenu:OpenMenu", source)
   end
-  AG2_2 = ipairs
-  AG3_2 = Config
-  AG3_2 = AG3_2.Group
-  AG2_2, AG3_2, AG4_2, AG5_2 = AG2_2(AG3_2)
-  for AG6_2, AG7_2 in AG2_2, AG3_2, AG4_2, AG5_2 do
-    if AG7_2 == AG1_2 then
-      AG8_2 = true
-      return AG8_2
+end)
+
+-- Detect framework on resource start
+AddEventHandler("onResourceStart", function(resourceName)
+  if resourceName == GetCurrentResourceName() then
+    DetectFramework()
+  end
+end)
+
+-- Detect framework when framework resource starts
+AddEventHandler("onResourceStart", function(resourceName)
+  if resourceName == "es_extended" or resourceName == "qb-core" then
+    DetectFramework()
+  end
+end)
+
+-- Version checker
+local function checkVersion()
+  local function parseVersion(versionString)
+    if not versionString then
+      return nil
     end
-  end
-  AG2_2 = false
-  return AG2_2
-end
-AG1_1 = RegisterNetEvent
-AG2_1 = "Elite-VehicleMenu:checkPerms"
-function AG3_1()
-  -- [AI CLEANUP] Decompiled Lua - Fix these:
-  -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-  -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-  -- 3. Replace goto/label with while/repeat-until where possible
-  -- 4. Remove decompiler comments, add meaningful ones
-  -- 5. Fix indentation and formatting
-  
-  local AG0_2, AG1_2, AG2_2, AG3_2
-  AG0_2 = source
-  AG1_2 = AG0_1
-  AG2_2 = AG0_2
-  AG1_2 = AG1_2(AG2_2)
-  if AG1_2 then
-    AG1_2 = TriggerClientEvent
-    AG2_2 = "Elite-VehicleMenu:OpenMenu"
-    AG3_2 = AG0_2
-    AG1_2(AG2_2, AG3_2)
-  end
-end
-AG1_1(AG2_1, AG3_1)
-AG1_1 = AddEventHandler
-AG2_1 = "onResourceStart"
-function AG3_1(AG0_2)
-  -- [AI CLEANUP] Decompiled Lua - Fix these:
-  -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-  -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-  -- 3. Replace goto/label with while/repeat-until where possible
-  -- 4. Remove decompiler comments, add meaningful ones
-  -- 5. Fix indentation and formatting
-  
-  local AG1_2
-  AG1_2 = GetCurrentResourceName
-  AG1_2 = AG1_2()
-  if AG0_2 == AG1_2 then
-    AG1_2 = DetectFramework
-    AG1_2()
-  end
-end
-AG1_1(AG2_1, AG3_1)
-AG1_1 = AddEventHandler
-AG2_1 = "onResourceStart"
-function AG3_1(AG0_2)
-  -- [AI CLEANUP] Decompiled Lua - Fix these:
-  -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-  -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-  -- 3. Replace goto/label with while/repeat-until where possible
-  -- 4. Remove decompiler comments, add meaningful ones
-  -- 5. Fix indentation and formatting
-  
-  local AG1_2
-  if "es_extended" == AG0_2 or "qb-core" == AG0_2 then
-    AG1_2 = DetectFramework
-    AG1_2()
-  end
-end
-AG1_1(AG2_1, AG3_1)
-function AG1_1()
-  -- [AI CLEANUP] Decompiled Lua - Fix these:
-  -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-  -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-  -- 3. Replace goto/label with while/repeat-until where possible
-  -- 4. Remove decompiler comments, add meaningful ones
-  -- 5. Fix indentation and formatting
-  
-  local AG0_2, AG1_2, AG2_2, AG3_2, AG4_2, AG5_2, AG6_2, AG7_2, AG8_2, AG9_2, AG10_2, AG11_2, AG12_2
-  function AG0_2(AG0_3)
-    -- [AI CLEANUP] Decompiled Lua - Fix these:
-    -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-    -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-    -- 3. Replace goto/label with while/repeat-until where possible
-    -- 4. Remove decompiler comments, add meaningful ones
-    -- 5. Fix indentation and formatting
     
-    local AG1_3, AG2_3, AG3_3, AG4_3, AG5_3, AG6_3, AG7_3
-    if not AG0_3 then
-      AG1_3 = nil
-      return AG1_3
-    end
-    AG2_3 = AG0_3
-    AG1_3 = AG0_3.match
-    AG3_3 = "(%d+)%.(%d+)%.?(%d*)"
-    AG1_3, AG2_3, AG3_3 = AG1_3(AG2_3, AG3_3)
-    if not AG1_3 or not AG2_3 then
-      AG4_3 = nil
-      return AG4_3
-    end
-    if "" == AG3_3 then
-      AG3_3 = "0"
-    end
-    AG4_3 = tonumber
-    AG5_3 = AG1_3
-    AG4_3 = AG4_3(AG5_3)
-    AG5_3 = tonumber
-    AG6_3 = AG2_3
-    AG5_3 = AG5_3(AG6_3)
-    AG6_3 = tonumber
-    AG7_3 = AG3_3
-    AG6_3, AG7_3 = AG6_3(AG7_3)
-    return AG4_3, AG5_3, AG6_3, AG7_3
-  end
-  function AG1_2(AG0_3, AG1_3, AG2_3, AG3_3, AG4_3, AG5_3)
-    -- [AI CLEANUP] Decompiled Lua - Fix these:
-    -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-    -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-    -- 3. Replace goto/label with while/repeat-until where possible
-    -- 4. Remove decompiler comments, add meaningful ones
-    -- 5. Fix indentation and formatting
+    local major, minor, patch = versionString:match("(%d+)%.(%d+)%.?(%d*)")
     
-    local AG6_3
-    if AG0_3 ~= AG3_3 then
-      if AG0_3 < AG3_3 then
-        AG6_3 = -1
-        if AG6_3 then
-          goto AG_LABEL_9
-        end
-      end
-      AG6_3 = 1
-      -- [FIX IF ERROR] Move ::AG_LABEL_9:: outside nested blocks until all 'goto AG_LABEL_9' can see it
-      ::AG_LABEL_9::
-      return AG6_3
+    if not major or not minor then
+      return nil
     end
-    if AG1_3 ~= AG4_3 then
-      if AG1_3 < AG4_3 then
-        AG6_3 = -1
-        if AG6_3 then
-          goto AG_LABEL_18
-        end
-      end
-      AG6_3 = 1
-      -- [FIX IF ERROR] Move ::AG_LABEL_18:: outside nested blocks until all 'goto AG_LABEL_18' can see it
-      ::AG_LABEL_18::
-      return AG6_3
-    end
-    if AG2_3 ~= AG5_3 then
-      if AG2_3 < AG5_3 then
-        AG6_3 = -1
-        if AG6_3 then
-          goto AG_LABEL_27
-        end
-      end
-      AG6_3 = 1
-      -- [FIX IF ERROR] Move ::AG_LABEL_27:: outside nested blocks until all 'goto AG_LABEL_27' can see it
-      ::AG_LABEL_27::
-      return AG6_3
-    end
-    AG6_3 = 0
-    return AG6_3
-  end
-  AG2_2 = GetCurrentResourceName
-  AG2_2 = AG2_2()
-  AG3_2 = GetResourceMetadata
-  AG4_2 = AG2_2
-  AG5_2 = "version"
-  AG6_2 = 0
-  AG3_2 = AG3_2(AG4_2, AG5_2, AG6_2)
-  AG4_2 = AG0_2
-  AG5_2 = AG3_2
-  AG4_2, AG5_2, AG6_2 = AG4_2(AG5_2)
-  if not AG4_2 then
-    AG7_2 = Error
-    AG8_2 = "Unable to determine current resource version for '%s' (got '%s')"
-    AG9_2 = AG8_2
-    AG8_2 = AG8_2.format
-    AG10_2 = AG2_2
-    AG11_2 = tostring
-    AG12_2 = AG3_2
-    AG11_2, AG12_2 = AG11_2(AG12_2)
-    AG8_2, AG9_2, AG10_2, AG11_2, AG12_2 = AG8_2(AG9_2, AG10_2, AG11_2, AG12_2)
-    return AG7_2(AG8_2, AG9_2, AG10_2, AG11_2, AG12_2)
-  end
-  AG7_2 = "%d.%d.%d"
-  AG8_2 = AG7_2
-  AG7_2 = AG7_2.format
-  AG9_2 = AG4_2
-  AG10_2 = AG5_2
-  AG11_2 = AG6_2
-  AG7_2 = AG7_2(AG8_2, AG9_2, AG10_2, AG11_2)
-  AG8_2 = PerformHttpRequest
-  AG9_2 = "https://raw.githubusercontent.com/EliteDevelopmentX/Elite-Versions/master/EliteVehicleMenu.txt"
-  function AG10_2(AG0_3, AG1_3, AG2_3)
-    -- [AI CLEANUP] Decompiled Lua - Fix these:
-    -- 1. Move ::AG_LABEL_XX:: outside nested blocks if 'no visible label' error
-    -- 2. Rename AG0_1, AG1_2 variables to meaningful names
-    -- 3. Replace goto/label with while/repeat-until where possible
-    -- 4. Remove decompiler comments, add meaningful ones
-    -- 5. Fix indentation and formatting
     
-    local AG3_3, AG4_3, AG5_3, AG6_3, AG7_3, AG8_3, AG9_3, AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3
-    if 200 ~= AG0_3 then
-      AG3_3 = Error
-      AG4_3 = "Version check failed, Error: %s"
-      AG5_3 = AG4_3
-      AG4_3 = AG4_3.format
-      AG6_3 = AG0_3
-      AG4_3, AG5_3, AG6_3, AG7_3, AG8_3, AG9_3, AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3 = AG4_3(AG5_3, AG6_3)
-      return AG3_3(AG4_3, AG5_3, AG6_3, AG7_3, AG8_3, AG9_3, AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3)
+    patch = (patch == "") and "0" or patch
+    
+    return tonumber(major), tonumber(minor), tonumber(patch)
+  end
+  
+  local function compareVersions(major1, minor1, patch1, major2, minor2, patch2)
+    if major1 ~= major2 then
+      return (major1 < major2) and -1 or 1
     end
-    AG3_3 = json
-    AG3_3 = AG3_3.decode
-    AG4_3 = AG1_3
-    AG3_3 = AG3_3(AG4_3)
-    AG4_3 = AG3_3 or AG4_3
-    if AG3_3 then
-      AG4_3 = AG3_3.version
+    
+    if minor1 ~= minor2 then
+      return (minor1 < minor2) and -1 or 1
     end
-    AG5_3 = AG0_2
-    AG6_3 = AG4_3
-    AG5_3, AG6_3, AG7_3 = AG5_3(AG6_3)
-    if not AG5_3 then
-      AG8_3 = Error
-      AG9_3 = "Invalid latest version in response: '%s'"
-      AG10_3 = AG9_3
-      AG9_3 = AG9_3.format
-      AG11_3 = tostring
-      AG12_3 = AG4_3
-      AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3 = AG11_3(AG12_3)
-      AG9_3, AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3 = AG9_3(AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3)
-      return AG8_3(AG9_3, AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3, AG16_3)
+    
+    if patch1 ~= patch2 then
+      return (patch1 < patch2) and -1 or 1
     end
-    AG8_3 = "%d.%d.%d"
-    AG9_3 = AG8_3
-    AG8_3 = AG8_3.format
-    AG10_3 = AG5_3
-    AG11_3 = AG6_3
-    AG12_3 = AG7_3
-    AG8_3 = AG8_3(AG9_3, AG10_3, AG11_3, AG12_3)
-    AG9_3 = AG1_2
-    AG10_3 = AG4_2
-    AG11_3 = AG5_2
-    AG12_3 = AG6_2
-    AG13_3 = AG5_3
-    AG14_3 = AG6_3
-    AG15_3 = AG7_3
-    AG9_3 = AG9_3(AG10_3, AG11_3, AG12_3, AG13_3, AG14_3, AG15_3)
-    if AG9_3 < 0 then
-      AG10_3 = "^9"
-      AG11_3 = string
-      AG11_3 = AG11_3.rep
-      AG12_3 = "="
-      AG13_3 = "Elite Vehicle Menu"
-      AG13_3 = #AG13_3
-      AG13_3 = 26 + AG13_3
-      AG11_3 = AG11_3(AG12_3, AG13_3)
-      AG12_3 = "^0"
-      AG10_3 = AG10_3 .. AG11_3 .. AG12_3
-      AG11_3 = print
-      AG12_3 = AG10_3
-      AG11_3(AG12_3)
-      AG11_3 = print
-      AG12_3 = [[
+    
+    return 0
+  end
+  
+  local resourceName = GetCurrentResourceName()
+  local currentVersion = GetResourceMetadata(resourceName, "version", 0)
+  local currentMajor, currentMinor, currentPatch = parseVersion(currentVersion)
+  
+  if not currentMajor then
+    Error(string.format("Unable to determine current resource version for '%s' (got '%s')", 
+      resourceName, tostring(currentVersion)))
+    return
+  end
+  
+  local formattedCurrent = string.format("%d.%d.%d", currentMajor, currentMinor, currentPatch)
+  
+  PerformHttpRequest(
+    "https://raw.githubusercontent.com/EliteDevelopmentX/Elite-Versions/master/EliteVehicleMenu.txt",
+    function(statusCode, responseBody, headers)
+      if statusCode ~= 200 then
+        Error(string.format("Version check failed, Error: %s", statusCode))
+        return
+      end
+      
+      local data = json.decode(responseBody)
+      local latestVersion = data and data.version
+      local latestMajor, latestMinor, latestPatch = parseVersion(latestVersion)
+      
+      if not latestMajor then
+        Error(string.format("Invalid latest version in response: '%s'", tostring(latestVersion)))
+        return
+      end
+      
+      local formattedLatest = string.format("%d.%d.%d", latestMajor, latestMinor, latestPatch)
+      local comparison = compareVersions(currentMajor, currentMinor, currentPatch, 
+        latestMajor, latestMinor, latestPatch)
+      
+      if comparison < 0 then
+        local separator = "^9" .. string.rep("=", 26 + #"Elite Vehicle Menu") .. "^0"
+        print(separator)
+        print(string.format([[
 New update available! ^0
 Current Version: ^1%s^0.
 New Version: ^2%s^0.
 Note of changes:
-^5%s^0.]]
-      AG13_3 = AG12_3
-      AG12_3 = AG12_3.format
-      AG14_3 = AG7_2
-      AG15_3 = AG8_3
-      AG16_3 = AG3_3.news
-      if not AG16_3 then
-        AG16_3 = "\226\128\148"
+^5%s^0.]], formattedCurrent, formattedLatest, data.news or "—"))
+        print("Download it now from https://portal.cfx.re/")
+        print(separator)
+      elseif comparison == 0 then
+        Info("You are using the latest version!")
+      else
+        Warn("You are using a version that is more recent than github!")
       end
-      AG12_3, AG13_3, AG14_3, AG15_3, AG16_3 = AG12_3(AG13_3, AG14_3, AG15_3, AG16_3)
-      AG11_3(AG12_3, AG13_3, AG14_3, AG15_3, AG16_3)
-      AG11_3 = print
-      AG12_3 = "Download it now from https://portal.cfx.re/"
-      AG11_3(AG12_3)
-      AG11_3 = print
-      AG12_3 = AG10_3
-      AG11_3(AG12_3)
-      return
-    elseif 0 == AG9_3 then
-      AG10_3 = Info
-      AG11_3 = "You are using the latest version!"
-      AG10_3(AG11_3)
-      return
-    else
-      AG10_3 = Warn
-      AG11_3 = "You are using a version that is more recent than github!"
-      AG10_3(AG11_3)
-      return
-    end
-  end
-  AG11_2 = "GET"
-  AG8_2(AG9_2, AG10_2, AG11_2)
+    end,
+    "GET"
+  )
 end
-AG2_1 = Citizen
-AG2_1 = AG2_1.SetTimeout
-AG3_1 = 2000
-AG4_1 = AG1_1
-AG2_1(AG3_1, AG4_1)
+
+-- Run version check after delay
+Citizen.SetTimeout(2000, checkVersion)
